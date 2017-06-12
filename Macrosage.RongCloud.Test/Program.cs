@@ -10,21 +10,23 @@ namespace Macrosage.RongCloud.Test
     {
         static void Main(string[] args)
         {
-
-            UserToken userToken = RequestUtility.ExecutePost<UserToken>("/user/getToken.json", new Dictionary<string, object> {
+            for (var i = 0; i < 100; i++)
+            {
+                UserToken userToken = RequestUtility.ExecutePost<UserToken>("/user/getToken.json", new Dictionary<string, object> {
                 { "userId","100000"},
                 { "name1","xiaopanzi"},
                 { "portraitUri",""}
             });
 
-            if (!userToken.Success)
-            {
-                Console.WriteLine(userToken.Code);
-                Console.Write(userToken.ErrorMessage);
-            }
-            else
-            {
-                Console.WriteLine(userToken.token);
+                if (!userToken.Success)
+                {
+                    Console.WriteLine(userToken.Code);
+                    Console.Write(userToken.ErrorMessage);
+                }
+                else
+                {
+                    Console.WriteLine(userToken.token);
+                }
             }
 
 

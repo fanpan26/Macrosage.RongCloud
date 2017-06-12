@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,7 +40,7 @@ namespace Macrosage.RongCloud
             IRestRequest request = new RestRequest(url);
             request.Method = method;
 
-            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Content-Type", "application/json; charset=utf-8");
 
             request.AddRongCloudHeader();
 
@@ -49,12 +50,12 @@ namespace Macrosage.RongCloud
                 {
                     if (method == Method.GET)
                     {
-                        request.AddQueryParameter(kv.Key, kv.Value.ToString());
+                        request.AddQueryParameter(kv.Key, WebUtility.UrlEncode(kv.Value.ToString()));
                     }
 
                     if (method == Method.POST)
                     {
-                        request.AddParameter(new Parameter() { Name = kv.Key, Value = kv.Value, Type = ParameterType.GetOrPost });
+                        request.AddParameter(new Parameter() { Name = kv.Key, Value = WebUtility.UrlEncode(kv.Value.ToString()), Type = ParameterType.GetOrPost });
                     }
                 }
             }
