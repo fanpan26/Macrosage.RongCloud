@@ -40,8 +40,6 @@ namespace Macrosage.RongCloud
             IRestRequest request = new RestRequest(url);
             request.Method = method;
 
-            request.AddHeader("Content-Type", "application/json; charset=utf-8");
-
             request.AddRongCloudHeader();
 
             if (parameter?.Count() > 0)
@@ -50,12 +48,12 @@ namespace Macrosage.RongCloud
                 {
                     if (method == Method.GET)
                     {
-                        request.AddQueryParameter(kv.Key, WebUtility.UrlEncode(kv.Value.ToString()));
+                        request.AddQueryParameter(kv.Key, kv.Value.ToString());
                     }
 
                     if (method == Method.POST)
                     {
-                        request.AddParameter(new Parameter() { Name = kv.Key, Value = WebUtility.UrlEncode(kv.Value.ToString()), Type = ParameterType.GetOrPost });
+                        request.AddParameter(new Parameter() { Name = kv.Key, Value = kv.Value.ToString(), Type = ParameterType.GetOrPost });
                     }
                 }
             }
@@ -70,10 +68,10 @@ namespace Macrosage.RongCloud
             IRestRequest request = PrapareRequest(url, method, parameter);
           
             IRestResponse response = Client.Execute(request);
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response.StatusCode != HttpStatusCode.OK)
             {
                 //记录日志
-                Console.WriteLine(response.StatusDescription);
+                Console.WriteLine(response.ErrorMessage);
             }
             return response.Content;
         }
@@ -96,9 +94,14 @@ namespace Macrosage.RongCloud
 
             IRestResponse<T> response = Client.Execute<T>(request);
 
-            if (response.Data.Code != 200)
+            if (response.StatusCode == 0)
             {
-                Console.WriteLine(RongCloudStateCode.GetErrorMessage(response.Data.Code));
+                Console.WriteLine(response.ErrorMessage);
+                return default(T);
+            }
+            if (response?.Data?.Code != 200)
+            {
+                Console.WriteLine(RongCloudStateCode.GetErrorMessage(response?.Data?.Code));
             }
 
             return response.Data;

@@ -24,16 +24,21 @@ namespace Macrosage.RongCloud
             { 1016,"设置的保活聊天室个数超限。"},
             { 1050,"内部服务响应超时"},
             { 2007,"测试用户数量超限"}
-
         };
 
-        public static string GetErrorMessage(int code)
+        public static string GetErrorMessage(int? code)
         {
-            if (readonlyDictionary.ContainsKey(code))
+            if (code != null)
             {
-                return readonlyDictionary[code];
+                if (readonlyDictionary.ContainsKey(code.Value))
+                {
+                    return readonlyDictionary[code.Value];
+                }
+                return $"未知错误:{code}";
             }
-            return $"未知错误:{code}";
+
+            return "未知错误";
+           
         }
     }
 }

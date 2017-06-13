@@ -44,12 +44,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="IRongCloudService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestUtility.cs" />
+    <Compile Include="RongCloudApi.cs" />
     <Compile Include="RongCloudBaseResult.cs" />
     <Compile Include="RongCloudConfig.cs" />
     <Compile Include="RongCloudExtensions.cs" />
+    <Compile Include="RongCloudMessage.cs" />
+    <Compile Include="RongCloudService.cs" />
     <Compile Include="RongCloudStateCode.cs" />
+    <Compile Include="UserToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

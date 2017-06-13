@@ -29,8 +29,8 @@ namespace Macrosage.RongCloud
             string nonce = rd_i.ToString();
             string timestamp = Convert.ToString(DateTime.Now.ToTimestamp());
             string signature = GetHash(RongCloudConfig.AppSecret + nonce + timestamp).ToLowerInvariant();
-            //appkey
-            //request.AddHeader("App-Key", appKey);
+            //Content-Type
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             //随机字符串
             request.AddHeader(Nonce, nonce);
             //时间戳
