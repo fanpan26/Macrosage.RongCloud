@@ -11,7 +11,7 @@ namespace Macrosage.RongCloud.Test
         static void Main(string[] args)
         {
 
-
+            
             IRongCloudService service = new RongCloudService();
             ////获取用户token
             //var token = service.GetUserToken("100000");
