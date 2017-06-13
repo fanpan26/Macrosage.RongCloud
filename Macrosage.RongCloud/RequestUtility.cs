@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Macrosage.RongCloud
 {
-    public class RequestUtility
+    internal class RequestUtility
     {
         private static readonly object _lock = new object();
 
