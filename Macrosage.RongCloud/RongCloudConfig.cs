@@ -8,6 +8,8 @@ namespace Macrosage.RongCloud
 {
     internal class RongCloudConfig
     {
-        
+        public static readonly string AppKey = "*****";
+
+        public static readonly string AppSecret = "*****";
     }
 }
