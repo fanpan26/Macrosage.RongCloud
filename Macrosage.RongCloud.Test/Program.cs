@@ -10,26 +10,30 @@ namespace Macrosage.RongCloud.Test
     {
         static void Main(string[] args)
         {
-            for (var i = 0; i < 100; i++)
+
+
+            IRongCloudService service = new RongCloudService();
+            ////获取用户token
+            //var token = service.GetUserToken("100000");
+
+            //Console.WriteLine(token?.Token);
+
+            ////发送自定义消息类型
+            //var result = service.SendChatRoomMessage(new ScreenTextRongCloudMessage
+            //{
+            //    ChatRoomId = "1497235996977",
+            //    Content = new { cv = 131276, name = "盘子", txt = "哈哈哈哈" },
+            //    SendUserId = "131276"
+            //});
+
+            service.SendChatRoomMessageAsync(new ScreenTextRongCloudMessage
             {
-                UserToken userToken = RequestUtility.ExecutePost<UserToken>("/user/getToken.json", new Dictionary<string, object> {
-                { "userId","100000"},
-                { "name1","xiaopanzi"},
-                { "portraitUri",""}
+                ChatRoomId = "1497235996977",
+                Content = new { cv = 131276, name = "盘子", txt = "哈哈哈哈" },
+                SendUserId = "131276"
             });
-
-                if (!userToken.Success)
-                {
-                    Console.WriteLine(userToken.Code);
-                    Console.Write(userToken.ErrorMessage);
-                }
-                else
-                {
-                    Console.WriteLine(userToken.token);
-                }
-            }
-
-
+            Console.WriteLine("已经发送");
+          
             Console.Read();
 
         }
