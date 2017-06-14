@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using log4net;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Macrosage.RongCloud
 {
     internal class RequestUtility
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(RequestUtility));
+
         private static readonly object _lock = new object();
 
         private static readonly string _baseRongCloudUri = "http://api.cn.ronghub.com";
@@ -71,7 +74,7 @@ namespace Macrosage.RongCloud
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 //记录日志
-                Console.WriteLine(response.ErrorMessage);
+                log.Error(response);
             }
             return response.Content;
         }
@@ -96,12 +99,12 @@ namespace Macrosage.RongCloud
 
             if (response.StatusCode == 0)
             {
-                Console.WriteLine(response.ErrorMessage);
+                log.Error(response);
                 return default(T);
             }
             if (response?.Data?.Code != 200)
             {
-                Console.WriteLine(RongCloudStateCode.GetErrorMessage(response?.Data?.Code));
+                log.Error(response.Content);
             }
 
             return response.Data;
@@ -123,10 +126,12 @@ namespace Macrosage.RongCloud
         {
             IRestRequest request = PrapareRequest(url, method, parameter);
 
-            RestRequestAsyncHandle handle = Client.ExecuteAsync(request, response =>
+            Client.ExecuteAsync(request, response =>
              {
-                 Console.WriteLine(response.StatusCode);
-                 Console.WriteLine(response.Content);
+                 if (response.StatusCode != HttpStatusCode.OK)
+                 {
+                     log.Error("url:" + url, response.ErrorException);
+                 }
              });
         }
 
